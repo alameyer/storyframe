@@ -1,25 +1,213 @@
-StoryFrame
-NARRATIVE DISCOVERY AGENT
-Copy Markdown
-Export PDF
-SESSION
-—
-—
-PROGRESS
-		0Event Context 1Core Thesis 2Contrarian Angle 3Audience Transformation 4Signature Stories 5Framework / Model 6Content Seeds
-ACTIONS
-＋ New Session
-Copy as Markdown
-Export as PDF
-✦
-Ready when you are
-StoryFrame will guide you through 6 modules to uncover the talk only you can give.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoryFrame — Narrative Discovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #F0EBE3;
+      --text: #1A1A1A;
+      --accent: #E8431A;
+      --accent-hover: #C93815;
+      --surface: #FAFAF8;
+      --muted: #6B6B6B;
+      --border: #E2DBD3;
+      --sidebar-w: 256px;
+    }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-Enter to send · Shift+Enter for new line
-Click mic for voice input
-Resume your session?
-You have a saved session from a previous visit. Pick up where you left off?
-Resume Session
-Start Fresh
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      gap: 16px;
+    }
+
+    .logo-wrap { display: flex; flex-direction: column; }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    .logo-sub {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+
+    .hdr-btn {
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .hdr-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .main { display: flex; flex: 1; overflow: hidden; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      gap: 24px;
+    }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .session-id { font-family: monospace; font-size: 13px; font-weight: 500; color: var(--accent); }
+    .session-date { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    .module-list { list-style: none; display: flex; flex-direction: column; }
+
+    .module-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 5px 0;
+      position: relative;
+    }
+
+    .module-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 26px;
+      width: 1px;
+      height: calc(100% - 4px);
+      background: var(--border);
+    }
+
+    .module-dot {
+      width: 21px; height: 21px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-top: 1px;
+    }
+
+    .module-item.active .module-dot { border-color: var(--accent); background: var(--accent); color: white; }
+    .module-item.done .module-dot { border-color: var(--accent); background: var(--accent); color: white; font-size: 0; }
+    .module-item.done .module-dot::after { content: '✓'; font-size: 10px; }
+
+    .module-name { font-size: 12px; color: var(--muted); line-height: 1.35; padding-top: 3px; transition: color 0.25s ease; }
+    .module-item.active .module-name { color: var(--text); font-weight: 500; }
+    .module-item.done .module-name { color: var(--text); }
+
+    .sidebar-actions { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
+
+    .sidebar-btn {
+      display: block; width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      background: transparent;
+      border-radius: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+    .sidebar-btn:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
+    .sidebar-btn.primary { background: var(--accent); border-color: var(--accent); color: white; font-weight: 500; }
+    .sidebar-btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: white; }
+
+    .chat-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 28px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .empty-state {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      flex: 1; padding: 40px; text-align: center;
+      color: var(--muted); margin: auto;
+    }
+    .empty-mark { font-family: 'Cormorant Garamond', serif; font-size: 52px; color: var(--border); line-height: 1; margin-bottom: 16px; }
+    .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .empty-sub { font-size: 13px; max-width: 260px; line-height: 1.65; }
+
+    .message { display: flex; gap: 12px; animation: fadeUp 0.28s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user { align-self: flex-end; flex-direction: row-reverse; max-width: 72%; }
+    .message.assistant { max-width: 84%; }
+
+    .avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600;
