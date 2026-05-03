@@ -211,3 +211,528 @@
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       font-size: 11px; font-weight: 600;
+      font-family: 'Cormorant Garamond', serif;
+      margin-top: 2px;
+    }
+    .message.assistant .avatar { background: var(--accent); color: white; }
+    .message.user .avatar { background: var(--text); color: white; }
+
+    .bubble { padding: 13px 17px; font-size: 14px; line-height: 1.72; }
+
+    .message.assistant .bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px 14px 14px 14px;
+      color: var(--text);
+    }
+    .message.user .bubble {
+      background: var(--accent);
+      color: white;
+      border-radius: 14px 3px 14px 14px;
+    }
+
+    .bubble h1, .bubble h2, .bubble h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; margin: 14px 0 7px; line-height: 1.25; }
+    .bubble h1 { font-size: 20px; } .bubble h2 { font-size: 17px; } .bubble h3 { font-size: 15px; }
+    .bubble p { margin-bottom: 9px; } .bubble p:last-child { margin-bottom: 0; }
+    .bubble ul, .bubble ol { padding-left: 18px; margin-bottom: 9px; }
+    .bubble li { margin-bottom: 4px; }
+    .bubble strong { font-weight: 500; }
+    .bubble em { font-style: italic; color: var(--muted); }
+    .bubble hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .bubble blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); font-style: italic; margin: 10px 0; }
+    .bubble table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+    .bubble th { background: var(--bg); padding: 7px 11px; text-align: left; font-weight: 500; border: 1px solid var(--border); font-size: 12px; }
+    .bubble td { padding: 7px 11px; border: 1px solid var(--border); }
+    .bubble code { font-family: monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 3px; }
+
+    .bubble.error { color: var(--muted); font-style: italic; font-size: 13px; }
+
+    .typing-row { display: flex; gap: 12px; align-items: center; }
+    .typing-dots { display: flex; gap: 4px; padding: 13px 17px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px 14px 14px 14px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: blink 1.3s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+    .input-area { padding: 14px 24px 18px; background: var(--surface); border-top: 1px solid var(--border); flex-shrink: 0; }
+
+    .input-wrap {
+      display: flex; gap: 8px; align-items: flex-end;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 10px 10px 14px;
+      transition: border-color 0.2s ease;
+    }
+    .input-wrap:focus-within { border-color: var(--accent); }
+
+    textarea {
+      flex: 1; border: none; background: transparent;
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--text); resize: none; outline: none;
+      min-height: 22px; max-height: 120px; line-height: 1.55;
+    }
+    textarea::placeholder { color: var(--muted); }
+
+    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.18s ease; }
+    .mic-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .mic-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .mic-btn.listening { background: var(--accent); border-color: var(--accent); color: white; animation: ripple 1.1s ease infinite; }
+    @keyframes ripple { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,67,26,0.35); } 50% { box-shadow: 0 0 0 7px rgba(232,67,26,0); } }
+    .send-btn { background: var(--accent); color: white; }
+    .send-btn:hover { background: var(--accent-hover); }
+    .send-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+    .input-hint { font-size: 11px; color: var(--muted); margin-top: 7px; display: flex; justify-content: space-between; }
+
+    .overlay { position: fixed; inset: 0; background: rgba(26,26,26,0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    .overlay.show { opacity: 1; pointer-events: all; }
+    .modal { background: var(--surface); border-radius: 16px; padding: 30px; max-width: 420px; width: 90%; transform: translateY(10px); transition: transform 0.25s ease; border: 1px solid var(--border); }
+    .overlay.show .modal { transform: translateY(0); }
+    .modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: 600; margin-bottom: 12px; }
+    .modal p { font-size: 13px; color: var(--muted); margin-bottom: 22px; line-height: 1.65; }
+    .modal-btns { display: flex; gap: 10px; }
+    .btn { padding: 9px 20px; border-radius: 8px; border: none; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.18s ease; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .toast { position: fixed; bottom: 76px; right: 20px; background: var(--text); color: var(--bg); padding: 9px 15px; border-radius: 8px; font-size: 12px; opacity: 0; transform: translateY(6px); transition: all 0.25s ease; pointer-events: none; z-index: 400; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media print {
+      .sidebar, .input-area, .header-actions, .overlay, .toast { display: none !important; }
+      .main { display: block; }
+      .chat-wrap, .messages { overflow: visible; height: auto; }
+      body { background: white; overflow: visible; height: auto; }
+      .message { break-inside: avoid; margin-bottom: 16px; }
+      .message.assistant .bubble { border: 1px solid #ddd; }
+      .message.user .bubble { background: #f0f0f0; color: #111; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo">Story<span>Frame</span></div>
+      <div class="logo-sub">Narrative Discovery Agent</div>
+    </div>
+    <div class="header-actions">
+      <button class="hdr-btn" onclick="copyMarkdown()">Copy Markdown</button>
+      <button class="hdr-btn" onclick="exportPDF()">Export PDF</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Session</div>
+        <div class="session-id" id="sessionId">—</div>
+        <div class="session-date" id="sessionDate">—</div>
+      </div>
+      <div>
+        <div class="sidebar-label">Progress</div>
+        <ul class="module-list" id="moduleList">
+          <li class="module-item" data-module="0"><div class="module-dot">0</div><div class="module-name">Event Context</div></li>
+          <li class="module-item" data-module="1"><div class="module-dot">1</div><div class="module-name">Core Thesis</div></li>
+          <li class="module-item" data-module="2"><div class="module-dot">2</div><div class="module-name">Contrarian Angle</div></li>
+          <li class="module-item" data-module="3"><div class="module-dot">3</div><div class="module-name">Audience Transformation</div></li>
+          <li class="module-item" data-module="4"><div class="module-dot">4</div><div class="module-name">Signature Stories</div></li>
+          <li class="module-item" data-module="5"><div class="module-dot">5</div><div class="module-name">Framework / Model</div></li>
+          <li class="module-item" data-module="6"><div class="module-dot">6</div><div class="module-name">Content Seeds</div></li>
+        </ul>
+      </div>
+      <div class="sidebar-actions">
+        <div class="sidebar-label">Actions</div>
+        <button class="sidebar-btn primary" onclick="newSession()">＋ New Session</button>
+        <button class="sidebar-btn" onclick="copyMarkdown()">Copy as Markdown</button>
+        <button class="sidebar-btn" onclick="exportPDF()">Export as PDF</button>
+      </div>
+    </aside>
+
+    <div class="chat-wrap">
+      <div class="messages" id="messages">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-mark">✦</div>
+          <div class="empty-title">Ready when you are</div>
+          <div class="empty-sub">StoryFrame will guide you through 6 modules to uncover the talk only you can give.</div>
+        </div>
+      </div>
+      <div class="input-area">
+        <div class="input-wrap">
+          <textarea id="userInput" placeholder="Share your thoughts..." rows="1" onkeydown="handleKeydown(event)" oninput="autoResize(this)"></textarea>
+          <button class="icon-btn mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice input">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <button class="icon-btn send-btn" id="sendBtn" onclick="sendMessage()" title="Send (Enter)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint">
+          <span>Enter to send · Shift+Enter for new line</span>
+          <span id="voiceHint">Click mic for voice input</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="resumeOverlay">
+    <div class="modal">
+      <h3>Resume your session?</h3>
+      <p id="resumeText">You have a saved session from a previous visit. Pick up where you left off?</p>
+      <div class="modal-btns">
+        <button class="btn btn-primary" onclick="resumeSession()">Resume Session</button>
+        <button class="btn btn-ghost" onclick="discardAndStart()">Start Fresh</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let history = [];
+    let sessionId = '';
+    let sessionCreatedAt = '';
+    let isLoading = false;
+    let recognition = null;
+    let isListening = false;
+    let savedData = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initVoice();
+      const raw = localStorage.getItem('storyframe_v1');
+      if (raw) {
+        try {
+          savedData = JSON.parse(raw);
+          const d = new Date(savedData.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+          document.getElementById('resumeText').textContent = 'You have a saved session from ' + d + '. Pick up where you left off?';
+          document.getElementById('resumeOverlay').classList.add('show');
+        } catch(e) { freshStart(); }
+      } else {
+        freshStart();
+      }
+    });
+
+    function resumeSession() {
+      closeModal();
+      history = savedData.messages;
+      sessionId = savedData.id;
+      sessionCreatedAt = savedData.createdAt;
+      refreshSessionUI();
+      renderAll();
+      refreshModules();
+      toast('Session resumed — continuing from where you left off.');
+    }
+
+    function discardAndStart() {
+      localStorage.removeItem('storyframe_v1');
+      closeModal();
+      freshStart();
+    }
+
+    function freshStart() {
+      history = [];
+      sessionId = 'SF-' + Math.random().toString(36).substr(2,6).toUpperCase();
+      sessionCreatedAt = new Date().toISOString();
+      refreshSessionUI();
+      refreshModules();
+      kickoff();
+    }
+
+    function newSession() {
+      if (history.length > 0 && !confirm('Start a fresh session? Your current session is saved in your browser.')) return;
+      localStorage.removeItem('storyframe_v1');
+      history = [];
+      sessionId = 'SF-' + Math.random().toString(36).substr(2,6).toUpperCase();
+      sessionCreatedAt = new Date().toISOString();
+      document.getElementById('messages').innerHTML = '';
+      addEmptyState();
+      refreshSessionUI();
+      refreshModules();
+      kickoff();
+    }
+
+    function saveSession() {
+      localStorage.setItem('storyframe_v1', JSON.stringify({
+        id: sessionId,
+        createdAt: sessionCreatedAt,
+        messages: history,
+        savedAt: Date.now()
+      }));
+    }
+
+    function refreshSessionUI() {
+      document.getElementById('sessionId').textContent = sessionId;
+      document.getElementById('sessionDate').textContent = new Date(sessionCreatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function closeModal() {
+      document.getElementById('resumeOverlay').classList.remove('show');
+    }
+
+    async function kickoff() {
+      await callAndRender([{ role: 'user', content: 'Hello, please begin the session.' }], true);
+    }
+
+    function refreshModules() {
+      const allText = history.filter(m => m.role === 'assistant').map(m => m.content).join(' ');
+      const mentioned = new Set();
+      for (let i = 0; i <= 6; i++) {
+        if (allText.includes('Module ' + i)) mentioned.add(i);
+      }
+      const highest = mentioned.size > 0 ? Math.max(...mentioned) : -1;
+      document.querySelectorAll('.module-item').forEach(el => {
+        const n = parseInt(el.dataset.module);
+        el.classList.remove('active', 'done');
+        if (n === highest) el.classList.add('active');
+        else if (mentioned.has(n) && n < highest) el.classList.add('done');
+      });
+    }
+
+    async function sendMessage() {
+      const ta = document.getElementById('userInput');
+      const text = ta.value.trim();
+      if (!text || isLoading) return;
+      ta.value = '';
+      ta.style.height = 'auto';
+      removeEmptyState();
+      addBubble('user', text);
+      history.push({ role: 'user', content: text });
+      await callAndRender(history, false);
+    }
+
+    async function callAndRender(messages, isKickoff) {
+      isLoading = true;
+      document.getElementById('sendBtn').disabled = true;
+      const typingEl = addTyping();
+
+      try {
+        const res = await fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages })
+        });
+
+        const rawText = await res.text();
+
+        if (!res.ok) {
+          let errMsg = 'Request failed (' + res.status + ')';
+          try {
+            const errJson = JSON.parse(rawText);
+            if (errJson.error) errMsg = errJson.error;
+          } catch(e) {}
+          throw new Error(errMsg);
+        }
+
+        let data;
+        try {
+          data = JSON.parse(rawText);
+        } catch(e) {
+          throw new Error('Unexpected response from server. Please try again.');
+        }
+
+        const reply = data.content && data.content[0] && data.content[0].text
+          ? data.content[0].text
+          : 'No response received. Please try again.';
+
+        removeEl(typingEl);
+        removeEmptyState();
+        addBubble('assistant', reply);
+
+        if (isKickoff) {
+          history = [
+            { role: 'user', content: messages[0].content },
+            { role: 'assistant', content: reply }
+          ];
+        } else {
+          history.push({ role: 'assistant', content: reply });
+        }
+
+        saveSession();
+        refreshModules();
+
+      } catch(err) {
+        removeEl(typingEl);
+        addErrorBubble(err.message);
+        console.error(err);
+        if (!isKickoff && history.length > 0 && history[history.length - 1].role === 'user') {
+          history.pop();
+        }
+      } finally {
+        isLoading = false;
+        document.getElementById('sendBtn').disabled = false;
+        scrollBottom();
+      }
+    }
+
+    function addBubble(role, content) {
+      const wrap = document.createElement('div');
+      wrap.className = 'message ' + role;
+      const av = document.createElement('div');
+      av.className = 'avatar';
+      av.textContent = role === 'assistant' ? 'SF' : 'You';
+      const bub = document.createElement('div');
+      bub.className = 'bubble';
+      if (role === 'assistant') {
+        bub.innerHTML = marked.parse(content);
+      } else {
+        bub.textContent = content;
+      }
+      wrap.appendChild(av);
+      wrap.appendChild(bub);
+      document.getElementById('messages').appendChild(wrap);
+      scrollBottom();
+      return bub;
+    }
+
+    function addErrorBubble(msg) {
+      const wrap = document.createElement('div');
+      wrap.className = 'message assistant';
+      const av = document.createElement('div');
+      av.className = 'avatar';
+      av.textContent = 'SF';
+      const bub = document.createElement('div');
+      bub.className = 'bubble error';
+      bub.textContent = 'Something went wrong — ' + msg + '. Please try sending your message again.';
+      wrap.appendChild(av);
+      wrap.appendChild(bub);
+      document.getElementById('messages').appendChild(wrap);
+      scrollBottom();
+    }
+
+    function renderAll() {
+      const m = document.getElementById('messages');
+      m.innerHTML = '';
+      history.forEach((msg, i) => {
+        if (i === 0 && msg.role === 'user' && msg.content === 'Hello, please begin the session.') return;
+        addBubble(msg.role, msg.content);
+      });
+    }
+
+    function addTyping() {
+      const row = document.createElement('div');
+      row.className = 'typing-row';
+      const av = document.createElement('div');
+      av.className = 'avatar';
+      av.style.cssText = 'background:var(--accent);color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:Cormorant Garamond,serif;flex-shrink:0;margin-top:2px;';
+      av.textContent = 'SF';
+      const dots = document.createElement('div');
+      dots.className = 'typing-dots';
+      dots.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      row.appendChild(av);
+      row.appendChild(dots);
+      document.getElementById('messages').appendChild(row);
+      scrollBottom();
+      return row;
+    }
+
+    function removeEl(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+
+    function addEmptyState() {
+      if (document.getElementById('emptyState')) return;
+      const es = document.createElement('div');
+      es.id = 'emptyState';
+      es.className = 'empty-state';
+      es.innerHTML = '<div class="empty-mark">✦</div><div class="empty-title">Ready when you are</div><div class="empty-sub">StoryFrame will guide you through 6 modules to uncover the talk only you can give.</div>';
+      document.getElementById('messages').appendChild(es);
+    }
+
+    function removeEmptyState() {
+      const es = document.getElementById('emptyState');
+      if (es) es.remove();
+    }
+
+    function scrollBottom() {
+      const m = document.getElementById('messages');
+      m.scrollTop = m.scrollHeight;
+    }
+
+    function handleKeydown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function initVoice() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        document.getElementById('voiceHint').textContent = 'Voice not supported — use Chrome';
+        document.getElementById('micBtn').disabled = true;
+        return;
+      }
+      recognition = new SR();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+      recognition.onstart = () => {
+        isListening = true;
+        document.getElementById('micBtn').classList.add('listening');
+        document.getElementById('voiceHint').textContent = 'Listening… speak now';
+      };
+      recognition.onresult = (e) => {
+        const t = Array.from(e.results).map(r => r[0].transcript).join('');
+        const ta = document.getElementById('userInput');
+        ta.value = t;
+        autoResize(ta);
+      };
+      recognition.onend = () => {
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('voiceHint').textContent = 'Click mic for voice input';
+      };
+      recognition.onerror = () => {
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('voiceHint').textContent = 'Voice error — try again';
+      };
+    }
+
+    function toggleVoice() {
+      if (!recognition) return;
+      if (isListening) { recognition.stop(); } else { recognition.start(); }
+    }
+
+    function copyMarkdown() {
+      if (history.length === 0) { toast('Nothing to export yet.'); return; }
+      let md = '# StoryFrame Session\n';
+      md += 'ID: ' + sessionId + '\n';
+      md += 'Date: ' + new Date(sessionCreatedAt).toLocaleDateString() + '\n\n---\n\n';
+      history.forEach(m => {
+        if (m.role === 'assistant') {
+          md += m.content + '\n\n---\n\n';
+        } else if (m.content !== 'Hello, please begin the session.') {
+          md += '**You:** ' + m.content + '\n\n---\n\n';
+        }
+      });
+      navigator.clipboard.writeText(md)
+        .then(() => toast('Copied to clipboard!'))
+        .catch(() => toast('Copy failed — try again.'));
+    }
+
+    function exportPDF() {
+      if (history.length === 0) { toast('Nothing to export yet.'); return; }
+      window.print();
+    }
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2800);
+    }
+  </script>
+</body>
+</html>
