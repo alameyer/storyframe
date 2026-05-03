@@ -95,19 +95,7 @@ Gather:
 - Speaker's goal for this specific talk
 
 Then generate a Production Timeline working backward from the event date, 
-using actual calendar dates:
-
-| Milestone | Date |
-|---|---|
-| Discovery complete (this session) | Today |
-| Narrative brief approved | Event date - 6 weeks |
-| Script v1 complete | Event date - 5 weeks |
-| Script final | Event date - 4 weeks |
-| Slide deck v1 | Event date - 3 weeks |
-| Slide deck final | Event date - 2 weeks |
-| Rehearsal #1 | Event date - 10 days |
-| Rehearsal #2 (full run) | Event date - 3 days |
-| Event day | Event date |
+using actual calendar dates.
 
 Once the speaker confirms the event date, replace all relative offsets in the 
 Production Timeline with actual calendar dates. For example, if the event is 
@@ -157,7 +145,7 @@ how they run their Monday meetings').
 
 ## Module 4 — Signature Stories
 
-Objective: Surface 2–3 personal stories that could anchor the talk.
+Objective: Surface 2-3 personal stories that could anchor the talk.
 
 Stories must be:
 - Specific (real moment, real place, real person)
@@ -204,7 +192,7 @@ Based on everything surfaced, generate:
 Pre-Event (Build anticipation)
 - 3 LinkedIn posts (thought leadership angles from the thesis)
 - 2 X/Twitter threads (contrarian takes or behind-the-scenes)
-- 1 short-form video concept (30–60 sec hook)
+- 1 short-form video concept (30-60 sec hook)
 
 Live Event
 - 1 shareable stat or claim (tweetable from the room)
@@ -282,8 +270,7 @@ needs to adapt. Health 1.0, Health 2.0, and Health 3.0 each represent a shift
 in how we define and design for wellbeing.
 Solution: Mindset shift — health challenges are not a personal failure. They are 
 the result of social, psychological, and physical factors in the environment.
-Outcome: Image analysis results and data visualizations. Taking a human approach 
-to applying AI for better health outcomes.
+Outcome: Image analysis results and data visualizations.
 Impact: Radical commitment — everyone has a role to play. Make environments more 
 humane to bring us closer to our humanity.
 
@@ -293,9 +280,7 @@ Location required car travel — inaccessible to most of the target population.
 Solution: Locate test centers where people already are. Redesign the test to be 
 self-administered. Make the experience fast and approachable for families.
 Outcome: Relocating to barbershops, parks, and schools dramatically increased participation.
-Impact: People trust neighborhood institutions more than distant agencies. Success 
-came from aligning urban planners, healthcare professionals, and experience designers 
-around a single goal.
+Impact: People trust neighborhood institutions more than distant agencies.
 
 Story 3 — Better Outcomes for Children (Urban Food Environment)
 Problem: A national health charity wanted to improve food outcomes for teens and 
@@ -336,34 +321,28 @@ best work and make better decisions.
 DISCOVERY
 
 Story 1 — The Gift of Frustration
-Problem: Clients asked 'Can you do something with AI?' with high expectations. 
-How to balance the promise of AI with a grounded approach?
+Problem: Clients asked 'Can you do something with AI?' with high expectations.
 Solution: Experimentation. Engineers and architects learning to code for AI.
 Outcome: Findings, guidelines, and methodologies that emerged from the process.
 Impact: New capability allowed engineers and architects to work differently.
 
 Story 2 — Unlocking Locked Data
-Problem: An international firm had enormous data locked in past project files. 
-Could machine learning extract insights?
-Solution: AI-enabled search for objects, shapes, and positions. Geometry and location 
-data for pattern recognition. Findings fed back into design models.
-Outcome: An AI assistant for designers to compare data between projects. As one 
-practitioner put it: 'We train the model on drawings from the past to identify what is unique.'
+Problem: An international firm had enormous data locked in past project files.
+Solution: AI-enabled search for objects, shapes, and positions. Findings fed back into design models.
+Outcome: An AI assistant for designers to compare data between projects.
 Impact: Better holistic view of data. Analysis that supports — not replaces — judgement.
 
 Story 3 — Analysis Is Not the Same as Judgement
 Problem: More data does not produce a single correct choice. Clients assume AI decides.
-Solution: Internal project data to train models. AI for early analysis to augment — 
-not replace — design decisions.
+Solution: Internal project data to train models. AI for early analysis to augment decisions.
 Outcome: Design examples demonstrating community benefit.
 Impact: BIM data for energy optimization and carbon reduction.
 
 DESSERT
 Sticky Provocation: All around us we hear concerns about AI. It is powerful. But as 
-creative people with deep expertise, we are also powerful. We can see that conditions 
-have changed and find another way. We have the power of choice. We evaluate the data. 
-We decide. We are responsible for how we use our tools on the path to creating a world 
-where people can thrive.
+creative people with deep expertise, we are also powerful. We have the power of choice. 
+We evaluate the data. We decide. We are responsible for how we use our tools on the 
+path to creating a world where people can thrive.
 
 ---
 
@@ -388,21 +367,11 @@ Suggested Talk Titles (5 options, ranging from bold to approachable)
 
 ### Deliverable 2 — Keynote Blueprint
 
-| Slide # | Section | Content | Notes |
-|---|---|---|---|
-| 1 | Opening Hook | [Story or provocative statement] | High emotion, no title slide |
-| 2–3 | Stakes | [What is broken / what is at risk] | Set up tension |
-| 4 | Thesis | [One-sentence claim] | Bold, single line |
-| 5–7 | Evidence / Story 1 | [First signature story] | Personal, specific |
-| 8–10 | Framework | [Mental model visual] | Simple, named |
-| 11–13 | Evidence / Story 2 | [Application or case study] | Show it working |
-| 14 | Audience Call to Action | [The one thing they should do] | Behavioral, not inspirational |
-| 15 | Close | [Callback to opening] | Emotional resolution |
+Translate the Discovery Report into a slide-ready structure with suggested visual 
+direction for each section.`;
 
-Include suggested visual direction for each section.`;
-
-// ── Cost optimisation — keep first 2 messages (kickoff anchor) + last 18 ──
-const MAX_HISTORY = 20;
+// Keep first 2 messages as anchor + last 16 to manage token cost
+const MAX_HISTORY = 18;
 
 function trimHistory(messages) {
   if (messages.length <= MAX_HISTORY) return messages;
@@ -411,73 +380,86 @@ function trimHistory(messages) {
   return [...anchor, ...recent];
 }
 
-// ── Netlify Functions 2.0 — supports streaming responses ──
-export default async (request) => {
-
+exports.handler = async (event) => {
   // CORS preflight
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS'
-      }
-    });
+      },
+      body: ''
+    };
   }
 
-  if (request.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: 'API key not configured.' }),
-      { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
-    );
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ error: 'API key not configured. Please set ANTHROPIC_API_KEY in Netlify environment variables.' })
+    };
   }
 
   let messages;
   try {
-    const body = await request.json();
+    const body = JSON.parse(event.body);
     messages = trimHistory(body.messages);
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: 'Invalid request body.' }),
-      { status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
-    );
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ error: 'Invalid request body.' })
+    };
   }
 
-  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 2048,
-      stream: true,
-      system: SYSTEM_PROMPT,
-      messages
-    })
-  });
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2048,
+        system: SYSTEM_PROMPT,
+        messages
+      })
+    });
 
-  if (!upstream.ok) {
-    const err = await upstream.json().catch(() => ({}));
-    return new Response(
-      JSON.stringify({ error: err.error?.message || 'Anthropic API error' }),
-      { status: upstream.status, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
-    );
-  }
-
-  // Stream Anthropic response directly to the client
-  return new Response(upstream.body, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Access-Control-Allow-Origin': '*'
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      return {
+        statusCode: response.status,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ error: errData.error?.message || 'Anthropic API error' })
+      };
     }
-  });
+
+    const data = await response.json();
+
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify(data)
+    };
+
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ error: err.message })
+    };
+  }
 };
