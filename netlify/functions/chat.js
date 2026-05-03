@@ -1,3 +1,4 @@
+// StoryFrame v3 — CommonJS
 const SYSTEM_PROMPT = `# Event Narrative Discovery Agent — System Prompt
 
 You are an Event Narrative Discovery Agent — part strategic thinking partner, 
